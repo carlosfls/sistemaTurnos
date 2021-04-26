@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: miHead"></head>
+<body>
+	<nav th:replace="fragments/nav :: miNav"></nav>
+	<header></header>
+	<section class="masthead bg-light row">
+		<div class="container col-sm-12 col-md-6">
+			<div class="card">
+				<div class="card-header">
+					<h1 th:text="${titulo}"></h1>
+				</div>
+				<div class="card-body">
+					<form class="" method="post" th:action="@{~/turnos/salvar}"	th:object="${turno}">
+						<div th:if="*{id}">
+							<label for="id">Id</label> <input class="form-control" id="id"
+								th:field="*{id}" readonly="readonly" />
+						</div>
+						
+						<label for="tipoServicio">TIPO SERVICIO</label>
+						<div>
+							<select id="tipoServicio" class="form-control" th:field="*{tipoServicio}">
+								<option th:each="serv : ${servicios}" th:value="${serv}" th:text="${serv}"></option>
+							</select>
+							<p ></p>
+						</div>
+								
+						<label for="descCliente">CLIENTE</label> 
+						<input class="form-control" id="descCliente" required th:field="*{descCliente}" />
+						
+						<label for="tipoVehiculo">TIPO VEHICULO</label>
+						<select id="tipoVehiculo" class="form-control" th:field="*{tipoVehiculo}">
+							<option th:each="vehi : ${vehiculos}" th:value="${vehi}" th:text="${vehi}"></option>
+						</select>
+						
+						<div th:if="*{id}">					
+							<label for="modelo">MODELO</label>
+							<input class="form-control" id="modelo" readonly th:field="*{modelo}" />
+						</div>
+						
+						<div th:unless="*{id}">					
+							<label for="modelo">MODELO</label>
+							<input class="form-control" id="modelo" th:field="*{modelo}" />
+						</div>
+						
+						<div th:if="*{id}">
+							<label for="descVehiculo">CHAPA</label>
+							<input class="form-control" id="descVehiculo" readonly th:field="*{descVehiculo}" />
+
+						</div>
+						<div th:unless="*{id}">
+							<label for="descVehiculo">CHAPA</label>
+							<input class="form-control" id="descVehiculo" th:field="*{descVehiculo}" />
+						</div>
+						
+						<label for="descEmpleado">EMPLEADO</label>
+						<input class="form-control" id="descEmpleado" required th:field="*{descEmpleado}" />
+
+						<label for="observaciones">OBSERVACIONES</label>
+						<input class="form-control" id="observaciones" th:field="*{observaciones}" />
+						
+						<label for="fechaLlegada">FECHA PROGRAMADA</label>
+						<input class="form-control" type="date"	id="fechaLlegada" th:field="*{fechaLlegada}" />
+						
+						<div th:if="*{id}">
+							<label for="descVehiculo">OPERACIONES REGISTRADAS</label>
+								<ul class="form-group">
+									<li th:each="op : ${operacionesPdtes}" th:text="${op.descOperacion}"></li>
+								</ul>
+							</div>
+						
+												
+						<div class="form-group" th:unless="*{id}">
+							<label for="listadoOp">OPERACIONES</label>
+							<select id="listadoOp" class="form-control" th:field="*{operaciones}" multiple>
+								<option th:each="op : ${listadoOp}" th:value="${op.opId}" th:text="${op.opDesc}"></option>
+							</select>
+							<p ></p>
+						</div>
+						
+						
+						<hr>
+						<input th:unless="*{id}" class="btn btn-success mt-2" type="submit" value="salvar">
+						<a th:if="*{id}" th:href="@{~/turnos/}" class="btn btn-success mt-2">ATRAS</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer th:replace="fragments/footer :: miFooter"></footer>
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

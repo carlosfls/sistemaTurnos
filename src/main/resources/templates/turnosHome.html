@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: miHead"></head>
+<body>
+	<nav th:replace="fragments/nav :: miNav"></nav>
+	<header></header>
+	<section class="masthead bg-light row">
+		<div class="container mt-5 col-sm-12 col-md-8 text-light" th:if="${listadoTurnos.isEmpty()}">
+			<h3>No hay turnos que mostrar</h3>
+			<a th:href="@{~/turnos/}">REGRESAR</a>
+		</div>
+		<div class="container mt-5 col-sm-12 col-md-10" th:unless="${listadoTurnos.isEmpty()}">
+			<div class="card bg-light">
+				<div class="card-header">
+					<form class="form form-inline formBusq" th:action="@{~/turnos/filtrar}"
+						th:object="${turnoFiltrar}" method="post">
+						<input type="date" class="form-control fomrBusq" id="fechaLlegada" th:field="*{fechaLlegada}" />
+						<input class="btn btn-md btn-info btnBusq" type="submit" value="buscar">
+					</form>
+				</div>
+				<div class="card-body">
+					<table class="table table-hover table-bordered table-sm">
+						<tr>
+							<th>ID</th>
+							<th>Cliente</th>
+							<th>Vehiculo</th>
+							<th>Servicio</th>
+							<th>Empleado</th>
+							<th>Fecha</th>
+							<th>Opciones</th>
+						</tr>
+						<tr th:each="t : ${listadoTurnos}">
+							<td><a th:href="@{~/turnos/detalles/{id}(id=${t.id})}"
+								th:text="${t.id}"></a></td>
+							<td th:text="${t.descCliente}"></td>
+							<td th:text="${t.descVehiculo}"></td>
+							<td th:text="${t.tipoServicio}"></td>
+							<td th:text="${t.descEmpleado}"></td>
+							<td th:text="${t.fechaLlegada}"></td>
+							<td><a onclick="return confirm('Esta seguro que desea eliminar?')" th:href="@{~/turnos/eliminar/{id}(id=${t.id})}">ELIMINAR</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer th:replace="fragments/footer :: miFooter"></footer>
+	
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: miHead"></head>
+<body>
+	<nav th:replace="fragments/nav :: miNav"></nav>
+	<header></header>
+	<section class="masthead bg-light row">
+		<div class="container mt-5 col-sm-12 col-md-10 text-light" th:if="${listadoProd.isEmpty()}">
+			<h4>No existen coincidencias</h4>
+			<a th:href="@{~/existencias/}">REGRESAR</a>
+		</div>
+		<div class="container mt-5 col-sm-12 col-md-10" th:unless="${listadoProd.isEmpty()}">
+			<div class="card bg-light">
+				<div class="card-header">
+					<form th:action=@{~/existencias/} th:object="${p}" class="form-inline" method="POST">
+                    	<label for="productoDesc" class="mr-sm-2">PRODUCTO</label>
+                    	<input th:field="*{productoDesc}" class="form-control mb-2 mr-sm-2" id="productoDesc">
+
+                    	<div class="flex">
+                        	<button type="submit" class="btn btn-primary mb-2">BUSCAR</button>
+                        	<a th:href="@{~/existencias/}" href="#" class="btn btn-primary mb-2">REFRESCAR</a>
+                    	</div>
+                	</form>
+				</div>
+				<div class="card-body">
+					<table class="table table-hover table-bordered table-sm">
+						<tr>
+							<th>PRODUCTO ID</th>
+							<th>DESCRIPCION</th>
+							<th>ALMACEN ID</th>
+							<th>CANTIDAD ACTUAL</th>
+						</tr>
+						<tr th:each="p : ${listadoProd}">
+							<td th:text="${p.productoId}"></td>
+							<td th:text="${p.productoDesc}"></td>
+							<td th:text="${p.almacenId}"></td>
+							<td th:text="${p.existenciaActual}"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer th:replace="fragments/footer :: miFooter"></footer>
+	
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
